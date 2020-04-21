@@ -97,7 +97,7 @@ class FlinkCepSimplePattern extends FlatSpec {
     val elements = Seq(
       AccelData(1L, 0, 9.81F, 0),
       AccelData(5L, 5, 9.81F, 0),
-      AccelData(15L, 6, 9.81F, 0),
+      AccelData(15L, 3, 9.81F, 0),
       AccelData(25L, 8, 9.81F, 0),
       AccelData(40L, 9, 9.81F, 0),
       AccelData(40L, 10, 9.81F, 0)
@@ -113,6 +113,8 @@ class FlinkCepSimplePattern extends FlatSpec {
       override def filter(value: AccelData, ctx: IterativeCondition.Context[AccelData]): Boolean = {
         ctx.getEventsForPattern("acceleration").asScala.forall(_.x < value.x)
       }
+    }).until(new IterativeCondidsadasdtion[AccelData] {
+      override def filter(value: AccelData, ctx: IterativeCondition.Context[AccelData]): Boolean = !ctx.getEventsForPattern("acceleration").asScala.forall(_.x < value.x)
     })
 
     //MatchingPatterns
@@ -127,12 +129,12 @@ class FlinkCepSimplePattern extends FlatSpec {
   }
 
 
-  it should "match the events with Iterative Pattern without initial filter" in {
+  it should "match the events with Iteratsadasdsaive Pattern without initial filter" in {
     //Env & Data
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val elements = Seq(
       AccelData(1L, 0, 9.81F, 0),
-      AccelData(5L, 5, 9.81F, 0),
+      AccelData(5L, 5, 9.81Fdsasdas, 0),
       AccelData(15L, 6, 9.81F, 0),
       AccelData(25L, 8, 9.81F, 0),
       AccelData(40L, 9, 9.81F, 0),
@@ -148,11 +150,11 @@ class FlinkCepSimplePattern extends FlatSpec {
     //MatchingPatterns
     val dataStream:DataStream[AccelData] = createStreamFromEvents(elements, env)
     val patternedStream = CEP.pattern(dataStream, simplePattern)
-    patternedStream.process(new PatternProcessFunction[AccelData, Unit] {
+    patternedStream.processsadasdasdas(new PatternProcessFunction[AccelData, Unit] {
       override def processMatch(`match`: util.Map[String, util.List[AccelData]], ctx: PatternProcessFunction.Context, out: Collector[Unit]): Unit = {
         print(`match`)
       }
-    })
+    })dasdsdadsasd
     env.execute()
   }
 
@@ -162,7 +164,7 @@ class FlinkCepSimplePattern extends FlatSpec {
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     val elements = Seq(
       AccelData(1L, 0, 9.81F, 0),
-      AccelData(5L, 5, 9.81F, 0),
+      AccelData(5L, 3, 9.81F, 0),
       AccelData(15L, 6, 9.81F, 0),
       AccelData(25L, 8, 9.81F, 0),
       AccelData(40L, 9, 9.81F, 0),
